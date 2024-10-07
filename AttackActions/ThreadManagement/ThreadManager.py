@@ -10,11 +10,16 @@ class ThreadManager(object):
             cls.instance = super(ThreadManager, cls).__new__(cls)
             cls.threads: List[ThreadDto] = []
         return cls.instance
-# returns true if there is an error
-    def check_for_error(self, attack: str)->bool:
+
+    # returns true if there is an error
+    def check_for_error(self, attack: str) -> bool:
         for thread in self.threads:
             if thread.get_attack() == attack:
-                if thread.is_alive():
+                try:
+                    if thread.is_alive():
+                        self._remove_thread(threadDto=thread)
+                        return True
+                except:
                     self._remove_thread(threadDto=thread)
                     return True
         return False
