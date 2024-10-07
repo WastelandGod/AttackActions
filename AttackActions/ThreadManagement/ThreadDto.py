@@ -11,3 +11,6 @@ class ThreadDto:
 
     def get_thread(self) -> ProcessManager:
         return self.thread
+
+    def is_alive(self) -> bool:
+        return self.thread

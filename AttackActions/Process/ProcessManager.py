@@ -10,7 +10,6 @@ class ProcessManager(IProcessManager):
         self.command = command
         self.process = None
         self.thread = None
-        self.thread_error = None  # To store any errors that occur during command execution
 
     def define_command(self, command: str):
         """
@@ -23,25 +22,13 @@ class ProcessManager(IProcessManager):
         Internal function to run the command in a separate process and capture output and errors.
         """
         if self.command:
-            try:
-                # Start the process and capture stdout and stderr
-                self.process = subprocess.Popen(
-                    self.command,
-                    shell=True,  # Execute command through the shell
-                    stdout=subprocess.PIPE,  # Capture standard output
-                    stderr=subprocess.PIPE,  # Capture standard error
-                    preexec_fn=os.setsid,
-                    text=True  # Ensure the output is in string format (not bytes)
-                )
-
-                # Capture the error streams
-                stderr = self.process.communicate()
-
-                self.thread_error = stderr
-
-            except Exception as e:
-                # Capture the exception and store it in thread_error
-                self.thread_error = str(e)
+            # Start the process without using a terminal emulator
+            self.process = subprocess.Popen(
+                self.command,
+                shell=True,  # Execute command through the shell
+                preexec_fn=os.setsid
+            )
+            self.process.wait()
 
     def start_process(self):
         """
@@ -65,3 +52,6 @@ class ProcessManager(IProcessManager):
             print("Process killed.")
         else:
             print("No process to kill.")
+
+    def is_alive(self):
+        return self.thread.is_alive()

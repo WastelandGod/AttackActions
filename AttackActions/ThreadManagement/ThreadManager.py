@@ -14,7 +14,7 @@ class ThreadManager(object):
     def check_for_error(self, attack: str)->bool:
         for thread in self.threads:
             if thread.get_attack() == attack:
-                if thread.get_thread().thread_error is not None:
+                if thread.is_alive():
                     self._remove_thread(threadDto=thread)
                     return True
         return False
