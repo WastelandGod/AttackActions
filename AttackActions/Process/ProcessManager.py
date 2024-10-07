@@ -10,6 +10,8 @@ class ProcessManager(IProcessManager):
         self.command = command
         self.process = None
         self.thread = None
+        self.thread_output = None  # To store the captured output (stdout and stderr)
+        self.thread_error = None  # To store any errors that occur during command execution
 
     def define_command(self, command: str):
         """
@@ -19,20 +21,34 @@ class ProcessManager(IProcessManager):
 
     def _run_command(self):
         """
-        Internal function to run the command in a separate process.
+        Internal function to run the command in a separate process and capture output and errors.
         """
         if self.command:
-            # Start the process without using a terminal emulator
-            self.process = subprocess.Popen(
-                self.command,
-                shell=True,  # Execute command through the shell
-                preexec_fn=os.setsid
-            )
-            self.process.wait()  # Wait for the command to complete
+            try:
+                # Start the process and capture stdout and stderr
+                self.process = subprocess.Popen(
+                    self.command,
+                    shell=True,  # Execute command through the shell
+                    stdout=subprocess.PIPE,  # Capture standard output
+                    stderr=subprocess.PIPE,  # Capture standard error
+                    preexec_fn=os.setsid,
+                    text=True  # Ensure the output is in string format (not bytes)
+                )
+
+                # Capture the output and error streams
+                stdout, stderr = self.process.communicate()
+
+                # Store the captured output and error
+                self.thread_output = stdout
+                self.thread_error = stderr
+
+            except Exception as e:
+                # Capture the exception and store it in thread_error
+                self.thread_error = str(e)
 
     def start_process(self):
         """
-        Starts the process in a separate thread.
+        Starts the process in a separate thread and captures the output and errors.
         """
         if self.command:
             # Create a thread to run the command
@@ -52,3 +68,17 @@ class ProcessManager(IProcessManager):
             print("Process killed.")
         else:
             print("No process to kill.")
+
+    def get_thread_output(self):
+        """
+        Returns the captured output and errors from the thread (stdout and stderr).
+        """
+        if self.thread:
+            self.thread.join()  # Ensure the thread has finished before retrieving output
+
+        if self.thread_output:
+            print(f"Output:\n{self.thread_output}")
+        if self.thread_error:
+            print(f"Errors:\n{self.thread_error}")
+        if not self.thread_output and not self.thread_error:
+            print("No output or error available.")

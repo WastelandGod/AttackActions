@@ -11,6 +11,15 @@ class ThreadManager(object):
             cls.threads: List[ThreadDto] = []
         return cls.instance
 
+    def check_for_output(self, attack: str) -> str:
+        for thread in self.threads:
+            if thread.get_attack() == attack:
+                if thread.get_thread().thread_error != None:
+                    return thread.get_thread().thread_error
+                else:
+                    return thread.get_thread().get_thread_output()
+        return ""
+
     def _remove_thread(self, threadDto: ThreadDto):
         threadDto.get_thread().kill_process()
         self.threads.remove(threadDto)
