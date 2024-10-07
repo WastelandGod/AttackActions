@@ -10,7 +10,7 @@ st.title(attack)
 # check if attack is already in action
 attackInAction = threadManager.check_running(attack=attack)
 # if yes, allow attack to be stopped
-if attackInAction == False:
+if attackInAction == True:
     if st.button("Stop attack"):
         threadManager.stop_attack(attack=attack)
 
