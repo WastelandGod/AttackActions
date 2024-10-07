@@ -1,5 +1,5 @@
 import streamlit as st
-from Thread.ThreadManager import ThreadManager
+from ThreadManagement.ThreadManager import ThreadManager
 
 attack = "Bruteforce FTP"
 dictionary = ""
