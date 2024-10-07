@@ -15,6 +15,7 @@ class ThreadManager(object):
         for thread in self.threads:
             if thread.get_attack() == attack:
                 if thread.get_thread().thread_error != None:
+                    self._remove_thread(threadDto=thread)
                     return thread.get_thread().thread_error
                 else:
                     return thread.get_thread().get_thread_output()
