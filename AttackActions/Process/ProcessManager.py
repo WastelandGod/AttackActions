@@ -22,12 +22,13 @@ class ProcessManager(IProcessManager):
         Internal function to run the command in a separate process.
         """
         if self.command:
-            # Start the process in a new session, ensuring that killing the parent will kill the terminal
+            # Start the process without using a terminal emulator
             self.process = subprocess.Popen(
-                ['xterm', '-hold', '-e', self.command],
+                self.command,
+                shell=True,  # Execute command through the shell
                 preexec_fn=os.setsid
             )
-            self.process.wait()
+            self.process.wait()  # Wait for the command to complete
 
     def start_process(self):
         """
@@ -42,12 +43,12 @@ class ProcessManager(IProcessManager):
 
     def kill_process(self):
         """
-        Kills the process and the associated terminal.
+        Kills the process.
         """
         if self.process:
-            # Send SIGTERM to the process group to kill the terminal and the command
-            os.killpg(os.getpgid(self.process.pid), signal.SIGTERM)
+            # Terminate the process
+            os.killpg(os.getpgid(self.process.pid), signal.SIGTERM)  # Kill process group
             self.thread.join()  # Wait for the thread to finish
-            print("Process and terminal killed.")
+            print("Process killed.")
         else:
             print("No process to kill.")
