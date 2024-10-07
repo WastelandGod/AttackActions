@@ -1,4 +1,4 @@
-from IProcessManager import IProcessManager
+from Process.IProcessManager import IProcessManager
 import threading
 import subprocess
 import os
@@ -6,8 +6,8 @@ import signal
 
 
 class ProcessManager(IProcessManager):
-    def __init__(self):
-        self.command = None
+    def __init__(self, command: str):
+        self.command = command
         self.process = None
         self.thread = None
 

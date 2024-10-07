@@ -4,7 +4,7 @@ if __name__ == "__main__":
     pm = ProcessManager()
 
     # Define the command to run
-    pm.define_command("ping -c 4 google.com")  # Change to any command you want to test
+    pm.define_command("ping -c 50 google.com")  # Change to any command you want to test
 
     # Start the process in a new thread
     pm.start_process()
