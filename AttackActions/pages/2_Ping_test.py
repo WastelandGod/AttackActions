@@ -1,6 +1,7 @@
 import streamlit as st
 from ThreadManagement.ThreadManager import ThreadManager
 import time
+
 attack = "Ping"
 dictionary = ""
 login = ""
@@ -19,10 +20,9 @@ if st.button("Start attack"):
     command = "ping -c 50 google.com"
     threadManager.start_attack(attack=attack, command=command)
     output_placeholder = st.empty()
-    while True:
-        output = threadManager.check_for_output(attack)
-        if output:
-            output_placeholder.text(output)
-        else:
-            output_placeholder.text("No output yet...")
-        time.sleep(1)  # Sleep to avoid excessive resource usage
+    time.sleep(2)
+    output = threadManager.check_for_output(attack)
+    if output:
+        output_placeholder.text(output)
+    else:
+        output_placeholder.text("No output yet...")
