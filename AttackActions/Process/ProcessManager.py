@@ -10,7 +10,6 @@ class ProcessManager(IProcessManager):
         self.command = command
         self.process = None
         self.thread = None
-        self.thread_output = None  # To store the captured output (stdout and stderr)
         self.thread_error = None  # To store any errors that occur during command execution
 
     def define_command(self, command: str):
@@ -35,11 +34,9 @@ class ProcessManager(IProcessManager):
                     text=True  # Ensure the output is in string format (not bytes)
                 )
 
-                # Capture the output and error streams
-                stdout, stderr = self.process.communicate()
+                # Capture the error streams
+                stderr = self.process.communicate()
 
-                # Store the captured output and error
-                self.thread_output = stdout
                 self.thread_error = stderr
 
             except Exception as e:
@@ -68,17 +65,3 @@ class ProcessManager(IProcessManager):
             print("Process killed.")
         else:
             print("No process to kill.")
-
-    def get_thread_output(self):
-        """
-        Returns the captured output and errors from the thread (stdout and stderr).
-        """
-        if self.thread:
-            self.thread.join()  # Ensure the thread has finished before retrieving output
-
-        if self.thread_output:
-            print(f"Output:\n{self.thread_output}")
-        if self.thread_error:
-            print(f"Errors:\n{self.thread_error}")
-        if not self.thread_output and not self.thread_error:
-            print("No output or error available.")

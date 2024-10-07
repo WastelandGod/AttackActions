@@ -11,8 +11,9 @@ st.title(attack)
 attackInAction = threadManager.check_running(attack=attack)
 # if yes, allow attack to be stopped
 if attackInAction == True:
-    if st.button("Stop attack"):
-        threadManager.stop_attack(attack=attack)
+    if not threadManager.check_for_error(attack=attack):
+        if st.button("Stop attack"):
+            threadManager.stop_attack(attack=attack)
 
 # if no, allow execution
 dictionary = st.text_input(label="Dictionary")
@@ -24,9 +25,6 @@ if st.button("Start attack"):
     else:
         command = "hydra -l " + login + " -P " + dictionary + " " + target + " -t 4 -I -V ftp -f"
         threadManager.start_attack(attack=attack, command=command)
-        while True:
-            st.write(threadManager.check_for_output(attack=attack))
-
 
 # hydra -l user1 -P /usr/share/sqlmap/txt/wordlist.txt 192.168.128.50 -t 4 -I -V ftp -f
 
