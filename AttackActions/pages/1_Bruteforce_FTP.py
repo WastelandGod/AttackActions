@@ -25,7 +25,7 @@ else:
         print(dictionary == "")
         print(login == "")
         print(InternetProtocolValidator.is_valid_ip(ip_string=target))
-        if dictionary == "" or login == "" or InternetProtocolValidator.is_valid_ip(ip_string=target):
+        if dictionary == "" or login == "" or not InternetProtocolValidator.is_valid_ip(ip_string=target):
             st.error(body="Every field must be filled")
         else:
             command = "hydra -l " + login + " -P " + dictionary + " " + target + " -t 4 -I -V ftp -f"
