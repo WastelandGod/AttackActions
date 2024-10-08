@@ -1,5 +1,5 @@
-from Process.ProcessManager import ProcessManager
-from ThreadManagement.ThreadDto import ThreadDto
+from processManagement.ProcessManager import ProcessManager
+from threadManagement.ThreadDto import ThreadDto
 from typing import List
 
 

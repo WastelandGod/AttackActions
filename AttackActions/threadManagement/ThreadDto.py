@@ -1,4 +1,4 @@
-from Process.ProcessManager import ProcessManager
+from processManagement.ProcessManager import ProcessManager
 
 
 class ThreadDto:

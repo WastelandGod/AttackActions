@@ -1,5 +1,5 @@
 import time
-from Process.ProcessManager import ProcessManager
+from processManagement.ProcessManager import ProcessManager
 if __name__ == "__main__":
     pm = ProcessManager()
 

@@ -1,5 +1,5 @@
 import streamlit as st
-from ThreadManagement.ThreadManager import ThreadManager
+from threadManagement.ThreadManager import ThreadManager
 import time
 
 attack = "Ping"
