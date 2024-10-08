@@ -1,6 +1,5 @@
 import streamlit as st
 from ThreadManagement.ThreadManager import ThreadManager
-from streamlit_autorefresh import st_autorefresh
 
 attack = "Bruteforce FTP"
 dictionary = ""
@@ -15,7 +14,7 @@ if attackInAction == True:
     if not threadManager.check_for_error(attack=attack):
         if st.button("Stop attack"):
             threadManager.stop_attack(attack=attack)
-            st_autorefresh()
+            st.rerun()
 else:
     # if no, allow execution
     dictionary = st.text_input(label="Dictionary")
@@ -29,7 +28,7 @@ else:
             #command = "hydra -l " + login + " -P " + dictionary + " " + target + " -t 4 -I -V ftp -f"
             command = "ping -c 50 google.com"
             threadManager.start_attack(attack=attack, command=command)
-            st_autorefresh()
+            st.rerun()
 
 # hydra -l user1 -P /usr/share/sqlmap/txt/wordlist.txt 192.168.128.50 -t 4 -I -V ftp -f
 
