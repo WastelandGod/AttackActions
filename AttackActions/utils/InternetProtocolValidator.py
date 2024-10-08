@@ -19,4 +19,4 @@ class InternetProtocolValidator:
         except ValueError:
             return False
 
-
+print(InternetProtocolValidator.is_valid_ip("12"))

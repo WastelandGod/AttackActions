@@ -22,6 +22,9 @@ else:
     login = st.text_input(label="Login as")
     target = st.text_input(label="Target IP address")
     if st.button("Start attack"):
+        print(dictionary == "")
+        print(login == "")
+        print(InternetProtocolValidator.is_valid_ip(ip_string=target))
         if dictionary == "" or login == "" or InternetProtocolValidator.is_valid_ip(ip_string=target):
             st.error(body="Every field must be filled")
         else:
