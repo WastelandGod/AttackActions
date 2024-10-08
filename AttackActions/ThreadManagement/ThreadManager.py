@@ -34,10 +34,11 @@ class ThreadManager(object):
         threadDto.get_thread().start_process()
 
     def stop_attack(self, attack: str) -> bool:
-        for thread in self.threads:
-            if thread.get_attack() == attack:
-                self._remove_thread(thread)
-                return True
+        if self.check_for_error(attack=attack):
+            for thread in self.threads:
+                if thread.get_attack() == attack:
+                    self._remove_thread(thread)
+                    return True
         return False
 
     def start_attack(self, attack: str, command: str):
