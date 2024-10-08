@@ -43,13 +43,24 @@ class ProcessManager(IProcessManager):
 
     def kill_process(self):
         """
-        Kills the process.
+        Kills the process and ensures proper cleanup of the thread.
         """
         if self.process:
-            # Terminate the process
-            os.killpg(os.getpgid(self.process.pid), signal.SIGTERM)  # Kill process group
-            self.thread.join()  # Wait for the thread to finish
-            print("Process killed.")
+            # Check if the process is still running
+            if self.process.poll() is None:  # poll() returns None if process is still running
+                try:
+                    # Terminate the process and its process group
+                    os.killpg(os.getpgid(self.process.pid), signal.SIGTERM)  # Kill process group
+                    print("Process killed.")
+                except OSError as e:
+                    print(f"Error killing process: {e}")
+            else:
+                print("Process already terminated.")
+
+            # Ensure the thread is properly cleaned up
+            if self.thread.is_alive():
+                self.thread.join()  # Wait for the thread to finish
+
         else:
             print("No process to kill.")
 
