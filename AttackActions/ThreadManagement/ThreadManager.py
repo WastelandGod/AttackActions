@@ -41,7 +41,7 @@ class ThreadManager(object):
 
     def stop_attack(self, attack: str) -> bool:
         print("Stopping the attack")
-        if self.check_for_error(attack=attack):
+        if not self.check_for_error(attack=attack):
             print("Stopping the attack: there were no errors")
             for thread in self.threads:
                 if thread.get_attack() == attack:
