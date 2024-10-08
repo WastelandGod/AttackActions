@@ -17,8 +17,7 @@ class ThreadManager(object):
             if thread.get_attack() == attack:
                 try:
                     if thread.is_alive():
-                        self._remove_thread(threadDto=thread)
-                        return True
+                        return False
                 except:
                     self._remove_thread(threadDto=thread)
                     return True
