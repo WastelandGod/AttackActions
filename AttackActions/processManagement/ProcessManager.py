@@ -51,11 +51,8 @@ class ProcessManager(IProcessManager):
                 try:
                     # Terminate the process and its process group
                     os.killpg(os.getpgid(self.process.pid), signal.SIGTERM)  # Kill process group
-                    print("processManagement killed.")
                 except OSError as e:
                     print(f"Error killing process: {e}")
-            else:
-                print("processManagement already terminated.")
 
             # Ensure the thread is properly cleaned up
             if self.thread.is_alive():

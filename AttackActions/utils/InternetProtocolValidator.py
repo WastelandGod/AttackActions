@@ -1,4 +1,5 @@
 import ipaddress
+import validators
 
 
 class InternetProtocolValidator:
@@ -19,4 +20,20 @@ class InternetProtocolValidator:
         except ValueError:
             return False
 
-print(InternetProtocolValidator.is_valid_ip("12"))
+    @staticmethod
+    def is_valid_port(port: str) -> bool:
+        try:
+            int(port)
+            # https://www.cloudflare.com/learning/network-layer/what-is-a-computer-port/
+            if 0 < int(port) < 65535:
+                return True
+            return False
+        except ValueError:
+            return False
+
+    @staticmethod
+    def is_valid_url(url: str) -> bool:
+        if validators.url(url) is True:
+            return True
+        return False
+
