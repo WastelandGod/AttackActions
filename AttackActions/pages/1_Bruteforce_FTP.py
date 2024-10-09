@@ -6,7 +6,11 @@ attack = "Bruteforce FTP"
 dictionary = ""
 login = ""
 threadManager = ThreadManager()
-st.title(attack)
+st.title(body=attack)
+
+st.text(
+    body="This attack consists in performing a dictionary attack using Hydra on a FTP server"
+         " in order to get the password of a user.")
 
 # check if attack is already in action
 attackInAction = threadManager.check_running(attack=attack)
@@ -18,9 +22,9 @@ if attackInAction == True:
             st.rerun()
 else:
     # if no, allow execution
-    dictionary = st.text_input(label="Dictionary")
-    login = st.text_input(label="Login as")
-    target = st.text_input(label="Target IP address")
+    dictionary = st.text_input(label="Dictionary", help="Absolute path to the dictionary file.")
+    login = st.text_input(label="Login as", help="This will be the user the attack will use to find the password.")
+    target = st.text_input(label="Target IP address", help="IP address of the FTP server")
     if st.button("Start attack"):
         print(dictionary == "")
         print(login == "")
